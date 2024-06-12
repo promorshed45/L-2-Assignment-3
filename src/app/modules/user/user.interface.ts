@@ -1,6 +1,6 @@
 import { USER_ROLE } from "./user.constants";
 
-export interface TUser {
+export type TUser = {
     name: string;
     email: string;
     password: string;

@@ -11,5 +11,5 @@ const router = express.Router();
 
 
 
-export const UserRoutes = router;
+export const UserRoute = router;
 
