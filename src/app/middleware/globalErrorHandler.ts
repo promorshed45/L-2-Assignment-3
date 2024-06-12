@@ -6,7 +6,6 @@ import { TErrorSources } from "../interface/error";
 import handleValidationError from "../errors/handleValidationError";
 import handleCastError from "../errors/handleCastError";
 import handleDuplicateError from "../errors/handleDuplicateError";
-import AppError from "../errors/AppError";
 
 const globalErrorHandler: ErrorRequestHandler = ((err, req, res, next) => {
   let statusCode = 500;
@@ -52,7 +51,7 @@ const globalErrorHandler: ErrorRequestHandler = ((err, req, res, next) => {
       message,
       errorSources,
       err,
-      stack: config.node_env === 'production' ? err?.stack : null
+      stack: config.node_env === 'development' ? err?.stack : null
     })
   }
 });
