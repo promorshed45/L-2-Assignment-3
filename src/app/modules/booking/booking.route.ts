@@ -1,11 +1,13 @@
 import express from "express";
+import { bookingControllers } from "./booking.controller";
 
 const router = express.Router();
 
-// router.post(
-//   "/",
-// );
+router.post(
+  "/",
+  bookingControllers.createBooking
+);
 
 
-export const ServiceRoute = router;
+export const BookingRoute = router;
 

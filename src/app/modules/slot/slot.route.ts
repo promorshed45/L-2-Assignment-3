@@ -2,9 +2,17 @@ import express from "express";
 
 const router = express.Router();
 
-// router.post(
-//   "/",
-// );
+
+router.post(
+    "/services/slots",
+  );
+
+  
+router.get(
+  "/slots",
+);
+
+
 
 
 export const SlotRoute = router;
