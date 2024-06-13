@@ -19,6 +19,10 @@ router.put(
   "/:id",
   serviceControllers.updateService
 );
+router.delete(
+  "/:id",
+  serviceControllers.softDeleteService
+);
 
 
 

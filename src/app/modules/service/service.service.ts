@@ -38,9 +38,19 @@ const updateService = async (id: string, payload: any) => {
   return service;
 };
 
+
+const softDeleteService = async (id: string) => {
+  const service = await Service.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
+  if (!service) {
+    throw new Error('Service not found');
+  }
+  return service;
+};
+
 export const serviceService = {
     createServiceIntoDB,
     getServiceById,
     getAllServices,
-    updateService
+    updateService,
+    softDeleteService
   };

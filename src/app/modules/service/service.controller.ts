@@ -45,10 +45,21 @@ const updateService = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const softDeleteService = catchAsync(async (req: Request, res: Response) => {
+  const serviceId = req.params.id;
+  const result = await serviceService.softDeleteService(serviceId);
+
+  res.status(200).json({
+    success: true,
+    message: "Service deleted successfully",
+    data: result,
+  });
+});
 
 export const serviceControllers = {
     createService,
     getService,
     getAllServices,
-    updateService
+    updateService,
+    softDeleteService
   };
