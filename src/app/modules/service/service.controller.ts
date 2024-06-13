@@ -23,7 +23,32 @@ const getService = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+
+const getAllServices = catchAsync(async (req: Request, res: Response) => {
+  const result = await serviceService.getAllServices();
+
+  res.status(200).json({
+    success: true,
+    message: "Services retrieved successfully",
+    data: result,
+  });
+});
+
+const updateService = catchAsync(async (req: Request, res: Response) => {
+  const serviceId = req.params.id;
+  const result = await serviceService.updateService(serviceId, req.body);
+
+  res.status(200).json({
+    success: true,
+    message: "Service updated successfully",
+    data: result,
+  });
+});
+
+
 export const serviceControllers = {
     createService,
-    getService
+    getService,
+    getAllServices,
+    updateService
   };
