@@ -9,8 +9,16 @@ const createServiceIntoDB = async (payload: TService) => {
 };
 
 
+const getServiceById = async (id: string) => {
+  const service = await Service.findById(id);
+  if (!service) {
+    throw new Error("No Data Found",);
+  }
+  return service;
+};
 
 
 export const serviceService = {
     createServiceIntoDB,
+    getServiceById  
   };

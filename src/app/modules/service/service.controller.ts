@@ -12,8 +12,18 @@ const createService = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getService = catchAsync(async (req: Request, res: Response) => {
+  const serviceId = req.params.id;
+  const result = await serviceService.getServiceById(serviceId);
 
+  res.status(200).json({
+    success: true,
+    message: "Service retrieved successfully",
+    data: result,
+  });
+});
 
 export const serviceControllers = {
     createService,
+    getService
   };

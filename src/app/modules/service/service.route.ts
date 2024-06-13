@@ -7,6 +7,10 @@ router.post(
   "/",
   serviceControllers.createService
 );
+router.get(
+  "/:id",
+  serviceControllers.getService
+);
 
 
 
