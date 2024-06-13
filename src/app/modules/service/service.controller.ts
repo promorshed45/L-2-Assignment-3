@@ -56,10 +56,22 @@ const softDeleteService = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+
+// const createSlot = catchAsync(async (req: Request, res: Response) => {
+//  
+
+//   res.status(200).json({
+//     success: true,
+//     message: "Slots created successfully",
+//     data: result,
+//   });
+// });
+
 export const serviceControllers = {
     createService,
     getService,
     getAllServices,
     updateService,
-    softDeleteService
+    softDeleteService,
+    // createSlot
   };

@@ -1,9 +1,9 @@
 import { TUser } from "../user/user.interface";
 import { User } from "../user/user.model";
 import { TLoginUser } from "./auth.interface";
-import { isPasswordMatched } from "./auth.util";
 import config from "../../config";
 import jwt from "jsonwebtoken";
+import { isPasswordMatched } from "./auth.util";
 
 
 // Creates a new user into database
@@ -23,6 +23,7 @@ const createUserIntoDB = async (payload: TUser) => {
 // Login User with email & password use jwt token
 const loginUser = async (payload: TLoginUser) => {
   const user = await User.findOne({ email: payload.email }).select("+password");
+  
 
   if (!user) {
     throw new Error("User not found");
@@ -57,11 +58,13 @@ const loginUser = async (payload: TLoginUser) => {
   return {
     accessToken,
     refreshToken,
+    user
   };
 };
 
 
+
 export const AuthServices = {
   createUserIntoDB,
-  loginUser
+  loginUser,
 };

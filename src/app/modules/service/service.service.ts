@@ -30,7 +30,7 @@ const getAllServices = async () => {
   return service;
 };
 
-const updateService = async (id: string, payload: any) => {
+const updateService = async (id: string, payload: Partial<TService>) => {
   const service = await Service.findByIdAndUpdate(id, payload, { new: true });
   if (!service) {
     throw new Error('Service not found');
@@ -47,10 +47,11 @@ const softDeleteService = async (id: string) => {
   return service;
 };
 
+
 export const serviceService = {
     createServiceIntoDB,
     getServiceById,
     getAllServices,
     updateService,
-    softDeleteService
+    softDeleteService,
   };
