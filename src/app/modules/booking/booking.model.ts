@@ -4,9 +4,9 @@ import { optional } from 'zod';
 
 // Mongoose schema for the Booking model
 const BookingSchema = new Schema({
-  customer: { type: Schema.Types.ObjectId, ref: 'User', optional: true },
-  service: { type: Schema.Types.ObjectId, ref: 'Service', required: true },
-  slot: { type: Schema.Types.ObjectId, ref: 'Slot', required: true },
+  customer: { type: Schema.Types.ObjectId as any, ref: 'User'},
+  service: { type: Schema.Types.ObjectId as any, ref: 'Service', required: true },
+  slot: { type: Schema.Types.ObjectId as any, ref: 'Slot', required: true },
   vehicleType: { type: String, required: true },
   vehicleBrand: { type: String, required: true },
   vehicleModel: { type: String, required: true },

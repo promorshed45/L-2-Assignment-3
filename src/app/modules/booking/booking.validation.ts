@@ -2,9 +2,9 @@ import { z } from 'zod';
 
 export const createBookingValidation = z.object({
   body: z.object({
-    customer: z.string(),
-    service: z.string(),
-    slot: z.string(),
+    customer: z.string().optional(),
+    service: z.string().optional(),
+    slot: z.string().optional(),
     vehicleType: z.enum(['car', 'truck', 'SUV', 'van', 'motorcycle', 'bus', 'electricVehicle', 'hybridVehicle', 'bicycle', 'tractor']),
     vehicleBrand: z.string(),
     vehicleModel: z.string(),

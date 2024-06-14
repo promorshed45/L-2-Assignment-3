@@ -15,15 +15,15 @@ const createServiceIntoDB = async (payload: TService) => {
 // Get a service by ID
 const getServiceById = async (id: string) => {
   const service = await Service.findById(id);
-  if (!service) {
-    throw new Error("No Data Found",);
-  }
+  if (!service || service.isDeleted) {
+    throw new Error("Service not found or deleted");
+}
   return service;
 };
 
 // Get all services
 const getAllServices = async () => {
-  const service = await Service.find();
+  const service = await Service.find({isDeleted: false});
   if (!service) {
     throw new Error("No Data Found",);
   }

@@ -8,7 +8,7 @@ export const createSlotValidation = z.object({
     }),
     startTime: z.string(),
     endTime: z.string(),
-    isBooked: z.enum(['available', 'booked', 'canceled']),
+    isBooked: z.enum(['available', 'booked', 'canceled']).optional(),
   })
 });
 

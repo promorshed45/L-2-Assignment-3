@@ -55,10 +55,12 @@ const loginUser = async (payload: TLoginUser) => {
     }
   );
 
+  const { password, ...userData } = user.toObject();
+
   return {
     accessToken,
     refreshToken,
-    user
+    user: userData
   };
 };
 
