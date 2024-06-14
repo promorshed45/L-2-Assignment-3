@@ -26,21 +26,14 @@ const createSlotIntoDB = async (payload: TSlot) => {
 };
 
 
-const getAvailableSlots = async (date?: string, serviceId?: string): Promise<TSlot[]> => {
-  const query: any = {
-    isBooked: 'available'
-  };
+const getAvailableSlots = async (date: string, serviceId?: string): Promise<TSlot[]> => {
+  let query: any = { date };
+    if (serviceId) {
+      query.room = serviceId;
+    }
 
-  if (date) {
-    query.date = date;
-  }
-
-  if (serviceId) {
-    query.service = serviceId;
-  }
-
-  const slots = await Slot.find(query);
-  return slots;
+    const slots = await Slot.find(query);
+    return slots;
 };
 
 export const slotService = {
