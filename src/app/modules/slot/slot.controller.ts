@@ -7,13 +7,25 @@ const createSlot = catchAsync(async (req: Request, res: Response) => {
 
   res.status(200).json({
     success: true,
+    statusCode: 200,
     message: "Slots created successfully",
     data: result,
   });
 });
 
+const getAvailableSlots = catchAsync(async (req: Request, res: Response) => {
+  const { date, serviceId } = req.query;
 
+  const availableSlots = await slotService.getAvailableSlots(date as string, serviceId as string);
+
+  res.status(200).json({
+    success: true,
+    message: 'Available slots retrieved successfully',
+    data: availableSlots,
+  });
+});
 
 export const slotControllers = {
-  createSlot
+  createSlot,
+  getAvailableSlots
 };

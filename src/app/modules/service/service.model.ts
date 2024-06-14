@@ -8,6 +8,8 @@ const ServiceSchema = new Schema<TService>({
     price: { type: Number, required: [true, 'Price is required'] },
     duration: { type: Number, required: [true, 'Duration is required'] },
     isDeleted: { type: Boolean, required: true, default: false },
+},{
+    timestamps: true
 });
 
 export const Service = model<TService>("Service", ServiceSchema);

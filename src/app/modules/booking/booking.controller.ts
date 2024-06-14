@@ -1,17 +1,22 @@
 import { Request, Response } from 'express';
-import { bookingService } from './booking.service';
 import catchAsync from '../../utils/catechAsync';
+import { BookingService } from './booking.service';
 
 const createBooking = catchAsync(async (req: Request, res: Response) => {
-  const result = await bookingService.createBookingIntoDB(req.body);
+  const {slotId, serviceId } = req.body;
+  const {userId} = req.params;
+  const result = await BookingService.createBookingIntoDB(slotId, serviceId, userId, req.body);
+  console.log(result);
 
   res.status(200).json({
     success: true,
-    message: "Booking successful",
+    statusCode: 200,
+    message: "Booking created successfully",
     data: result,
   });
 });
 
-export const bookingControllers = {
-    createBooking,
-  };
+
+export const BookingController = {
+  createBooking,
+};

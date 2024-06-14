@@ -1,11 +1,13 @@
 import express from "express";
-import { bookingControllers } from "./booking.controller";
+import { auth } from "../../middleware/auth";
+import { BookingController } from "./booking.controller";
 
 const router = express.Router();
 
 router.post(
   "/",
-  bookingControllers.createBooking
+  // auth("user"),
+  BookingController.createBooking
 );
 
 

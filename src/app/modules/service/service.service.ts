@@ -4,7 +4,7 @@ import { Service } from "./service.model";
 
 // Creates a new service in the database
 const createServiceIntoDB = async (payload: TService) => {
-  const existingService = await Service.findOne({ name: payload.name });
+  const existingService = await Service.findOne({ name: new RegExp(`^${payload.name}$`, 'i') });
   if (existingService) {
     throw new Error(`${payload.name} service already exists`);
   }

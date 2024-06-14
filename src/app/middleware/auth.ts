@@ -8,10 +8,10 @@ import { USER_ROLE } from "../modules/user/user.constants";
 
 export const auth = (...requiredRoles: (keyof typeof USER_ROLE)[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const accessToken = req.headers.authorization;
+    const accessToken = req.headers.authorization?.split(' ')[1];
 
     if (!accessToken) {
-      throw new AppError(401, "You are not authorized to access this route");
+      throw new AppError(401, "No token provided",);
     }
 
     const verfiedToken = jwt.verify(

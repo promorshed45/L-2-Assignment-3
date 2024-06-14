@@ -9,29 +9,41 @@ const createSlotIntoDB = async (payload: TSlot) => {
 
   const service = payload?.service;
 
-  const isSlotsExist = await Slot.findOne({service})
-
-  if(isSlotsExist){
+  const isSlotsExist = await Slot.findOne({ service })
+  if (isSlotsExist) {
     throw new AppError(httpStatus.CONFLICT, "Slots is already exist")
   }
 
-
-  //Check if the slot is exit
-
+  //Check if the service is exit
   const isServiceExist = await Service.findById(service)
 
-  if(!isServiceExist){
+  if (!isServiceExist) {
     throw new AppError(httpStatus.NOT_FOUND, "Service not found")
   }
-
-  
-
 
   const newSlot = await Slot.create(payload);
   return newSlot;
 };
 
+const getAvailableSlots = async (date?: string, serviceId?: string): Promise<TSlot[]> => {
+  const query: any = {
+    isBooked: 'available'
+  };
+
+  if (date) {
+    query.date = date;
+  }
+
+  if (serviceId) {
+    query.service = serviceId;
+  }
+
+  const slots = await Slot.find(query);
+  return slots;
+};
+
 
 export const slotService = {
-    createSlotIntoDB,
-  };
+  createSlotIntoDB,
+  getAvailableSlots
+};

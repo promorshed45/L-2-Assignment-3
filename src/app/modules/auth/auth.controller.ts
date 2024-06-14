@@ -7,6 +7,7 @@ const createUser = catchAsync(async (req, res) => {
   
     res.status(200).json({
       success: true,
+      statusCode: 200,
       message: "User registered successfully",
       data: result,
     });
@@ -19,9 +20,11 @@ const createUser = catchAsync(async (req, res) => {
       httpOnly: true,
       secure: config.NODE_ENV === "production",
     });
+
   
     res.status(200).json({
       success: true,
+      statusCode: 200,
       message: "User logged in successfully",
       token: accessToken,
       data: user

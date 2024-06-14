@@ -8,6 +8,7 @@ const createService = catchAsync(async (req: Request, res: Response) => {
   res.status(200).json({
     success: true,
     message: "Service created successfully",
+    statusCode: 200,
     data: result,
   });
 });
@@ -18,6 +19,7 @@ const getService = catchAsync(async (req: Request, res: Response) => {
 
   res.status(200).json({
     success: true,
+    statusCode: 200,
     message: "Service retrieved successfully",
     data: result,
   });
@@ -29,6 +31,7 @@ const getAllServices = catchAsync(async (req: Request, res: Response) => {
 
   res.status(200).json({
     success: true,
+    statusCode: 200,
     message: "Services retrieved successfully",
     data: result,
   });
@@ -40,6 +43,7 @@ const updateService = catchAsync(async (req: Request, res: Response) => {
 
   res.status(200).json({
     success: true,
+    statusCode: 200,
     message: "Service updated successfully",
     data: result,
   });
@@ -51,21 +55,13 @@ const softDeleteService = catchAsync(async (req: Request, res: Response) => {
 
   res.status(200).json({
     success: true,
+    statusCode: 200,
     message: "Service deleted successfully",
     data: result,
   });
 });
 
 
-// const createSlot = catchAsync(async (req: Request, res: Response) => {
-//  
-
-//   res.status(200).json({
-//     success: true,
-//     message: "Slots created successfully",
-//     data: result,
-//   });
-// });
 
 export const serviceControllers = {
     createService,
