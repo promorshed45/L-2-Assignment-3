@@ -1,92 +1,57 @@
 import httpStatus from "http-status";
-import { Service } from "../service/service.model";
-import { User } from "../user/user.model";
 import { TBooking } from "./booking.interface";
 import { Booking } from "./booking.model";
 import AppError from "../../errors/AppError";
 import { Slot } from "../slot/slot.model";
 
 
-const createBookingIntoDB = async (slotId: string, serviceId: string, userId: string, payload: TBooking) => {
-
-
-  const service = payload?.service;
-
-  // Check if booking already exists for the service
-  const isBookingExist = await Booking.findOne({ service });
-  if (isBookingExist) {
-      throw new AppError(httpStatus.CONFLICT, "Booking already exists");
+const createBookServiceIntoDB = async (bookingData: Partial<TBooking>, userId: string) => {
+  // Check if slot is available
+  const slot = await Slot.findById(bookingData.slot);
+  if (!slot || slot.isBooked !== "available") {
+    throw new AppError(httpStatus.BAD_REQUEST, "Slot is not available");
   }
 
-  
-  // Check if customer exists
-  // const customerExists = await User.findById(userId);
-  // if (!customerExists) {
-  //     throw new AppError(httpStatus.NOT_FOUND, 'User not found');
-  // }
 
-  // Check if the service exists
-  const isServiceExist = await Service.findById(serviceId);
-  if (!isServiceExist) {
-      throw new AppError(httpStatus.NOT_FOUND, "Service not found");
-  }
-
-  // Check if the slot exists
-  const isSlotExist = await Slot.findById(slotId);
-  if (!isSlotExist) {
-      throw new AppError(httpStatus.NOT_FOUND, "Slot not found");
-  }
-
-  
-
-
-  // Create the new booking
+  // Create booking
   const newBooking = await Booking.create({
-      customer: userId,
-      service: serviceId,
-      slot: slotId,
-      vehicleType: payload.vehicleType,
-      vehicleBrand: payload.vehicleBrand,
-      vehicleModel: payload.vehicleModel,
-      manufacturingYear: payload.manufacturingYear,
-      registrationPlate: payload.registrationPlate,
+    ...bookingData,
+    customer: userId,
   });
 
-  // Populate the booking details to include customer, service, and slot information
-  // await newBooking.populate('customer').populate('service').populate('slot').execPopulate();
 
-  // Update the slot to mark it as booked
-  // newBooking.slot.isBooked = 'booked';
-  // await newBooking.slot.save();
+  // Update slot status to booked
+  slot.isBooked = "booked";
+  await slot.save();
 
-  return newBooking;
+  return newBooking.populate("customer service slot");
 };
 
-
-
 const getAllBookings = async () => {
-  // Populate necessary fields: customer, service, slot
   const bookings = await Booking.find()
-    .populate('customer', 'name email phone address')
-    .populate('service', 'name description price duration isDeleted')
-    .populate('slot', 'service date startTime endTime isBooked')
-    .exec();
+    .populate("customer service slot");
 
   return bookings;
 };
 
 const getUserBookings = async (userId: string) => {
   const bookings = await Booking.find({ customer: userId })
-    .populate('customer')
-    .populate('service')
-    .populate('slot')
-    .exec();
-  return bookings;
+  .populate('service slot').exec();
+
+  // Map through bookings to extract relevant data
+  const mapBookings = bookings.map(booking => {
+    const { customer, ...bookingData } = booking.toObject();
+    return bookingData;
+  });
+
+ return {
+      bookings: mapBookings
+    };
 };
 
 
 export const BookingService = {
-  createBookingIntoDB,
+  createBookServiceIntoDB,
   getAllBookings,
   getUserBookings
 };

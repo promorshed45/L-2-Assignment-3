@@ -1,13 +1,15 @@
+import httpStatus from "http-status";
 import config from "../../config";
 import catchAsync from "../../utils/catechAsync";
+import sendResponse from "../../utils/sendResponse";
 import { AuthServices } from "./auth.service";
 
 const createUser = catchAsync(async (req, res) => {
     const result = await AuthServices.createUserIntoDB(req.body);
-  
-    res.status(200).json({
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
       success: true,
-      statusCode: 200,
       message: "User registered successfully",
       data: result,
     });
@@ -21,10 +23,9 @@ const createUser = catchAsync(async (req, res) => {
       secure: config.NODE_ENV === "production",
     });
 
-  
     res.status(200).json({
       success: true,
-      statusCode: 200,
+      statusCode: httpStatus.OK,
       message: "User logged in successfully",
       token: accessToken,
       data: user

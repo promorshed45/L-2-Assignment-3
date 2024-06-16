@@ -1,17 +1,17 @@
 import { Schema, model } from 'mongoose';
 import { TBooking } from './booking.interface';
-import { optional } from 'zod';
+import { VehicleType } from './booking.constants';
 
-// Mongoose schema for the Booking model
+
 const BookingSchema = new Schema({
-  customer: { type: Schema.Types.ObjectId as any, ref: 'User'},
+  customer: { type: Schema.Types.ObjectId as any, ref: 'User' },
   service: { type: Schema.Types.ObjectId as any, ref: 'Service', required: true },
   slot: { type: Schema.Types.ObjectId as any, ref: 'Slot', required: true },
-  vehicleType: { type: String, required: true },
+  vehicleType: { type: String, enum: { values: VehicleType, message: "{VALUE} is not a valid vehicle type", }, required: true },
   vehicleBrand: { type: String, required: true },
   vehicleModel: { type: String, required: true },
   manufacturingYear: { type: Number, required: true },
-  registrationPlate: { type: String, required: true },
+  registrationPlate: { type: String, required: true, unique: true },
 }, { timestamps: true }
 );
 

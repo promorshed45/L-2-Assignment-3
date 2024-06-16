@@ -1,47 +1,41 @@
-import { Request, Response } from 'express';
 import catchAsync from '../../utils/catechAsync';
+import sendResponse from '../../utils/sendResponse';
 import { slotService } from './slot.service';
-import { Slot } from './slot.model';
+import httpStatus from 'http-status';
 
-const createSlot = catchAsync(async (req: Request, res: Response) => {
-  const result = await slotService.createSlotIntoDB(req.body);
+const createSlot = catchAsync(async (req, res) => {
 
-  res.status(200).json({
+  const duration = 60;
+  const serviceData = req.body;
+
+  const result = await slotService.createSlotIntoDB(serviceData, duration);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
     success: true,
-    statusCode: 200,
     message: "Slots created successfully",
     data: result,
   });
+
 });
 
 
-const getAvailableSlots = catchAsync(async (req: Request, res: Response) => {
+const getAvailableSlots = catchAsync(async (req, res) => {
 
   const { date, serviceId } = req.query;
 
-      let query: any = { date };
-      if (serviceId) {
-          query.room = serviceId;
-      }
+  if (!date || !serviceId) {
+    res.status(400).json({ success: false, message: 'Date and serviceId are required' });
+    return;
+  }
 
-      const slots = await Slot.find(query).populate('service');
+  const result = await slotService.getAvailableSlots(serviceId as string, date as string);
 
-      if (!slots) {
-          return res.status(404).json({
-              success: false,
-              statusCode: 404,
-              message: 'No slots found',
-              data: []
-          });
-      }
-
-      const availableSlots = slots.filter(slot => !slot.isBooked);
-
-
-  res.status(200).json({
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
     success: true,
     message: 'Available slots retrieved successfully',
-    data: availableSlots,
+    data: result,
   });
 });
 

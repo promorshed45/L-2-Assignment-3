@@ -53,5 +53,5 @@ export const serviceService = {
     getServiceById,
     getAllServices,
     updateService,
-    softDeleteService,
+    softDeleteService
   };
